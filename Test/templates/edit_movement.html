@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Edit Movement</h2>
+
+<div class="form-section">
+    <form method="POST" action="{{ url_for('update_movement', movement_id=movement.movement_id) }}">
+        <select name="product_id" required>
+            <option value="">Select Product</option>
+            {% for product in products %}
+            <option value="{{ product.product_id }}" {% if product.product_id == movement.product_id %}selected{% endif %}>
+                {{ product.name }}
+            </option>
+            {% endfor %}
+        </select>
+        
+        <select name="from_location">
+            <option value="">From Location (Leave blank for incoming)</option>
+            {% for location in locations %}
+            <option value="{{ location.location_id }}" {% if location.location_id == movement.from_location %}selected{% endif %}>
+                {{ location.name }}
+            </option>
+            {% endfor %}
+        </select>
+        
+        <select name="to_location">
+            <option value="">To Location (Leave blank for outgoing)</option>
+            {% for location in locations %}
+            <option value="{{ location.location_id }}" {% if location.location_id == movement.to_location %}selected{% endif %}>
+                {{ location.name }}
+            </option>
+            {% endfor %}
+        </select>
+        
+        <input type="number" name="qty" value="{{ movement.qty }}" min="1" required>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update Movement</button>
+            <a href="{{ url_for('movements') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
