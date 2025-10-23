@@ -7,10 +7,7 @@ from models import init_db, get_db_connection
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
 
-# Initialize database
 init_db()
-
-# Product Routes
 @app.route('/')
 def index():
     return redirect(url_for('products'))
@@ -71,7 +68,6 @@ def delete_product(product_id):
     flash('Product deleted successfully!', 'success')
     return redirect(url_for('products'))
 
-# Location Routes
 @app.route('/locations')
 def locations():
     conn = get_db_connection()
@@ -128,7 +124,6 @@ def delete_location(location_id):
     flash('Location deleted successfully!', 'success')
     return redirect(url_for('locations'))
 
-# Product Movement Routes
 @app.route('/movements')
 def movements():
     conn = get_db_connection()
@@ -242,12 +237,10 @@ def delete_movement(movement_id):
     flash('Movement deleted successfully!', 'success')
     return redirect(url_for('movements'))
 
-# Balance Report
 @app.route('/balance')
 def balance():
     conn = get_db_connection()
     
-    # Calculate balance by summing movements
     balance_data = conn.execute('''
         WITH movements AS (
             SELECT 
@@ -287,4 +280,5 @@ def balance():
     return render_template('balance.html', balance_data=balance_data)
 
 if __name__ == '__main__':
+
     app.run(debug=True)
